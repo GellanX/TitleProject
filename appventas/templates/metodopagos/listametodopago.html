@@ -1,0 +1,10 @@
+<h1>Metodos de Pago</h1>
+<a href="{% url 'crear_metodopago' %}">Nuevo Metodo de Pago</a>
+<ul>
+    {% for metodopago in metodopagos %}
+        <li>{{ metodopago.nombre }} - 
+            <a href="{% url 'actualizar_metodopago' metodopago.id %}">Editar</a> |
+            <a href="{% url 'eliminar_metodopago' metodopago.id %}">Eliminar</a>
+        </li>
+    {% endfor %}
+</ul>

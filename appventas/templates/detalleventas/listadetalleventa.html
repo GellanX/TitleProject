@@ -1,0 +1,10 @@
+<h1>Detalle Ventas</h1>
+<a href="{% url 'crear_detalleventa' %}">Nuevo Detalle de Venta</a>
+<ul>
+    {% for detalleventa in detalleventas %}
+        <li>{{ detalleventa.nombre }} - 
+            <a href="{% url 'actualizar_detalleventa' detalleventa.id %}">Editar</a> |
+            <a href="{% url 'eliminar_detalleventa' detalleventa.id %}">Eliminar</a>
+        </li>
+    {% endfor %}
+</ul>

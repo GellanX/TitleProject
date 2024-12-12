@@ -1,0 +1,6 @@
+<h1>¿Estás seguro que quieres eliminar este metodo de pago?</h1>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Eliminar</button>
+</form>
+<a href="{% url 'lista_metodopagos' %}">Cancelar</a>
