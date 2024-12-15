@@ -33,7 +33,7 @@ def ventas_graficos(request):
     grafico = fig.to_html(full_html=False)
     grafico2 = fig2.to_html(full_html=False)
 
-    return render(request, 'ventas_graficos.html', {'grafico': grafico, 'grafico2': grafico2})
+    return render(request, 'grafico.html', {'grafico': grafico, 'grafico2': grafico2})
 
 
 
