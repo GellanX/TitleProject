@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Servicios(models.Model):
@@ -20,7 +21,7 @@ class Ventas(models.Model):
     precioventa = models.IntegerField()
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
-    fecha = models.DateField()
+    fecha = models.DateField(default=timezone.now)
     idcliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     idmetodopago = models.ForeignKey(MetodoPago, on_delete=models.CASCADE)
 
@@ -28,6 +29,6 @@ class DetalleVentas(models.Model):
     detalles = models.CharField(max_length=255)
     descripcion = models.TextField()
     precio_detalle = models.IntegerField()
-    fechahora = models.DateTimeField()
+    fechahora = models.DateTimeField(default=timezone.now)
     idventas = models.ForeignKey(Ventas, on_delete=models.CASCADE)
     idservicios = models.ForeignKey(Servicios, on_delete=models.CASCADE)

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .models import Servicios, Cliente, MetodoPago, Ventas, DetalleVentas
 from .forms import ServiciosForm, ClienteForm, MetodoPagoForm, VentasForm, DetallesVentasForm, RegistroVentaForm
 
@@ -69,6 +70,8 @@ def crear_venta(request):
     if form.is_valid():
         form.save()
         return redirect('lista_ventas')
+    else:
+        form = VentasForm(initial={'fecha': timezone.now()})
     return render(request, 'ventas/formularioventa.html', {'form': form})
 
 def actualizar_venta(request, id):
@@ -104,6 +107,8 @@ def actualizar_detalleventa(request, id):
     if form.is_valid():
         form.save()
         return redirect('lista_detalleventas')
+    else:
+        form = DetallesVentasForm(initial={'fechahora': timezone.now()})
     return render(request, 'detalleventas/formulariodetalleventa.html', {'form': form})
 
 def eliminar_detalleventa(request, id):
@@ -149,18 +154,18 @@ def registrar_venta(request):
             # Guardar la venta
             venta = form.save()
 
-                        # Guardar detalles de venta por servicio
+                        
             servicios = form.cleaned_data['servicios']
             for servicio in servicios:
                 DetalleVentas.objects.create(
                     detalles=f"Detalle de {servicio.nombre}",
                     descripcion=servicio.descripcion,
-                    precio_detalle=servicio.precioventa,  # Con esto ajustas según los precios colocados
+                    precio_detalle=servicio.precioventa, 
                     fechahora=venta.fecha,
                     idventas=venta,
                     idservicios=servicio
                 )
-            return redirect('lista_ventas')  # Redirige a una página de lista de ventas, que puedes crear   
+            return redirect('lista_ventas')   
     else:
         form = RegistroVentaForm()
     return render(request, 'ventas/registrar.html', {'form': form})

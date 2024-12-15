@@ -1,4 +1,6 @@
 from django import forms
+from django.forms.widgets import DateInput
+from django.utils import timezone
 from .models import Servicios, Cliente, MetodoPago, Ventas, DetalleVentas
 
 class ServiciosForm(forms.ModelForm):
@@ -20,11 +22,25 @@ class VentasForm(forms.ModelForm):
     class Meta:
         model = Ventas
         fields = ['codigo', 'precioventa', 'nombre', 'descripcion', 'fecha', 'idcliente', 'idmetodopago']
+        widgets = {
+            'fecha': DateInput(attrs={'type': 'date'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['fecha'].initial = timezone.now()
 
 class DetallesVentasForm(forms.ModelForm):
     class Meta:
         model = DetalleVentas
         fields = ['detalles', 'descripcion', 'precio_detalle', 'fechahora', 'idventas', 'idservicios']
+        widgets = {
+            'fechahora': DateInput(attrs={'type': 'date'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['fechahora'].initial = timezone.now()
 
 class RegistroVentaForm(forms.ModelForm):
     servicios = forms.ModelMultipleChoiceField(
