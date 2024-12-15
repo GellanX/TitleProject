@@ -11,6 +11,11 @@
     <div>
         <!-- Aquí se renderiza el gráfico -->
         {{ grafico|safe }}
+        <a href="{% url 'home' %}" class="btn btn-primary">Volver al Menú Principal</a>
+    </div>
+    <h2>Ventas por Cliente</h2>
+    <div>
+        {{ grafico2|safe }}
     </div>
 </body>
 </html>
