@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.widgets import DateInput
 from django.utils import timezone
-from .models import Servicios, Cliente, MetodoPago, Ventas, DetalleVentas
+from .models import Servicios, Cliente, MetodoPago, Ventas, DetalleVentas, Insumo
 
 class ServiciosForm(forms.ModelForm):
     class Meta:
@@ -53,3 +53,8 @@ class RegistroVentaForm(forms.ModelForm):
     class Meta:
         model = Ventas
         fields = ['codigo', 'precioventa', 'nombre', 'descripcion', 'fecha', 'idcliente', 'idmetodopago']
+
+class InsumoForm(forms.ModelForm):
+    class Meta:
+        model = Insumo
+        fields = ['nombre', 'descripcion', 'cantidad_disponible', 'precio_unitario']

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from .models import Servicios, Cliente, MetodoPago, Ventas, DetalleVentas
-from .forms import ServiciosForm, ClienteForm, MetodoPagoForm, VentasForm, DetallesVentasForm, RegistroVentaForm
+from .models import Servicios, Cliente, MetodoPago, Ventas, DetalleVentas, Insumo
+from .forms import ServiciosForm, ClienteForm, MetodoPagoForm, VentasForm, DetallesVentasForm, RegistroVentaForm, InsumoForm
 
 # Create your views here.
 # CRUD Servicios
@@ -173,3 +173,39 @@ def registrar_venta(request):
 @login_required
 def home(request):
     return render(request, 'home.html')
+
+#CRUD Inventario
+def listar_insumos(request):
+    insumos = Insumo.objects.all()
+    return render(request, 'inventario/listar_insumos.html', {'insumos': insumos})
+
+def agregar_insumo(request):
+    if request.method == 'POST':
+        form = InsumoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_insumos')
+    else:
+        form = InsumoForm()
+    return render(request, 'inventario/agregar_insumo.html', {'form': form})
+
+def editar_insumo(request, insumo_id):
+    insumo = get_object_or_404(Insumo, pk=insumo_id)
+    if request.method == 'POST':
+        form = InsumoForm(request.POST, instance=insumo)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_insumos')
+    else:
+        form = InsumoForm(instance=insumo)
+    return render(request, 'inventario/editar_insumo.html', {'form': form})
+
+def eliminar_insumo(request, insumo_id):
+    insumo = get_object_or_404(Insumo, pk=insumo_id)
+    if request.method == 'POST':
+        insumo.delete()
+        return redirect('listar_insumos')
+    return render(request, 'inventario/eliminar_insumo.html', {'insumo': insumo})
+
+def base_view(request):
+    return render(request, 'base.html')

@@ -26,9 +26,28 @@ class Ventas(models.Model):
     idmetodopago = models.ForeignKey(MetodoPago, on_delete=models.CASCADE)
 
 class DetalleVentas(models.Model):
+    cantidad = models.PositiveBigIntegerField(default=0)
     detalles = models.CharField(max_length=255)
     descripcion = models.TextField()
     precio_detalle = models.IntegerField()
     fechahora = models.DateTimeField(default=timezone.now)
     idventas = models.ForeignKey(Ventas, on_delete=models.CASCADE)
     idservicios = models.ForeignKey(Servicios, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.insumo.cantidad_disponible -= self.cantidad
+            if self.insumo.cantidad_disponible < 0:
+                raise ValueError("No hay suficientes insumos disponibles para esta venta")
+            self.insumo.save()
+        super().save(*args, **kwargs)
+
+class Insumo(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True, null=True)
+    cantidad_disponible = models.IntegerField(default=0)
+    precio_unitario = models.IntegerField(default=0)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.nombre
