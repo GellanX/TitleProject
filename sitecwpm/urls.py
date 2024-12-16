@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.shortcuts import redirect
 
 urlpatterns = [
-    path('usuarios/', include('usuarios.urls')),  # Incluye las rutas de la app "usuarios"
+    path('usuarios/', include('usuarios.urls')),
     path('appventas/', include('appventas.urls')),
     path('', lambda request: redirect('login', permanent=True)),
     path('graficos/', include('graficos.urls')),
