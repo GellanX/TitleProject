@@ -187,7 +187,7 @@ def agregar_insumo(request):
             return redirect('listar_insumos')
     else:
         form = InsumoForm()
-    return render(request, 'inventario/agregar_insumo.html', {'form': form})
+    return render(request, 'inventario/agregar_editar_insumo.html', {'form': form, 'title': 'Agregar Insumo'})
 
 def editar_insumo(request, insumo_id):
     insumo = get_object_or_404(Insumo, pk=insumo_id)
@@ -198,7 +198,7 @@ def editar_insumo(request, insumo_id):
             return redirect('listar_insumos')
     else:
         form = InsumoForm(instance=insumo)
-    return render(request, 'inventario/editar_insumo.html', {'form': form})
+    return render(request, 'inventario/agregar_editar_insumo.html', {'form': form, 'title': 'Editar Insumo'})
 
 def eliminar_insumo(request, insumo_id):
     insumo = get_object_or_404(Insumo, pk=insumo_id)
