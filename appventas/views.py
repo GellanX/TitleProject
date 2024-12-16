@@ -208,4 +208,4 @@ def eliminar_insumo(request, insumo_id):
     return render(request, 'inventario/eliminar_insumo.html', {'insumo': insumo})
 
 def base_view(request):
-    return render(request, 'inventario/base.html')
+    return render(request, 'base.html')
